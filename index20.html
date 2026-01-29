@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>越南魅力 - Discover the Charm of Vietnam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Zhi+Mang+Xing&family=Charm:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --emerald: #004D40; 
+            --gold: #C5A059;
+            --crimson: #8E0000;
+            --sand: #FBF9F5;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Noto Serif TC', serif; background-color: var(--sand); color: #333; overflow-x: hidden; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 50px; display: flex; justify-content: space-between; align-items: center;
+            transition: 0.5s; background: rgba(0,0,0,0.2); backdrop-filter: blur(5px);
+        }
+        nav.sticky { background: var(--white); padding: 10px 50px; box-shadow: 0 2px 20px rgba(0,0,0,0.1); border-bottom: 2px solid var(--gold); }
+        
+        .logo { font-family: 'Zhi Mang Xing', cursive; font-size: 2.5rem; color: var(--white); text-decoration: none; transition: 0.3s; }
+        nav.sticky .logo { color: var(--emerald); }
+
+        .nav-links { display: flex; list-style: none; }
+        .nav-links a { 
+            color: var(--white); text-decoration: none; margin-left: 30px; 
+            font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; transition: 0.3s;
+        }
+        nav.sticky .nav-links a { color: var(--emerald); }
+        .nav-links a:hover { color: var(--gold) !important; }
+
+        /* --- 1. HERO SECTION --- */
+        .hero {
+            height: 100vh; width: 100%; position: relative;
+            display: flex; justify-content: center; align-items: center; text-align: center; color: var(--white);
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        .hero-content h1 { font-family: 'Charm', cursive; font-size: 5rem; margin-bottom: 10px; }
+        .hero-content p { font-size: 1.5rem; letter-spacing: 3px; font-weight: 300; }
+        .scroll-btn {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            animation: bounce 2s infinite; cursor: pointer; color: var(--gold); font-size: 2rem;
+        }
+
+        /* --- SECTION GENERIC --- */
+        section { padding: 100px 10%; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-family: 'Zhi Mang Xing', cursive; font-size: 4rem; color: var(--emerald); }
+        .section-title span { font-family: 'Charm', cursive; color: var(--gold); font-size: 1.5rem; display: block; }
+
+        /* --- 2. INTRODUCTION --- */
+        .intro-container { display: flex; align-items: center; gap: 50px; }
+        .intro-img { flex: 1; border-radius: 20px; overflow: hidden; box-shadow: 20px 20px 0 var(--gold); }
+        .intro-img img { width: 100%; height: 100%; object-fit: cover; }
+        .intro-text { flex: 1.2; }
+        .intro-text p { font-size: 1.2rem; line-height: 2; margin-bottom: 20px; text-align: justify; }
+
+        /* --- 3. EXPLORE ACCORDION --- */
+        .explore-row { 
+            display: flex; gap: 30px; margin-bottom: 30px; align-items: center; 
+            cursor: pointer; transition: 0.3s; padding: 20px; border-radius: 20px;
+        }
+        .explore-row:hover { background: rgba(197, 160, 89, 0.1); }
+        .explore-row.reverse { flex-direction: row-reverse; }
+        .explore-img-box { flex: 1.2; position: relative; height: 400px; border-radius: 20px; overflow: hidden; }
+        .explore-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .explore-info { flex: 1; padding: 20px; }
+        .explore-info h3 { font-size: 2.5rem; color: var(--crimson); font-family: 'Zhi Mang Xing', cursive; margin-bottom: 10px; }
+        
+        .extra-gallery { max-height: 0; overflow: hidden; transition: max-height 0.8s ease-out; background: #fff; margin-bottom: 60px; border-radius: 20px; }
+        .gallery-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 30px; }
+        .gallery-inner img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; border: 3px solid var(--sand); transition: 0.3s; }
+
+        /* --- 4. MUST-SEE SITES --- */
+        .sites-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .site-card { position: relative; height: 350px; border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.5s; }
+        .site-card img { width: 100%; height: 100%; object-fit: cover; }
+        .site-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); }
+        .site-name { position: absolute; bottom: 20px; left: 20px; color: #fff; z-index: 2; font-size: 1.8rem; font-family: 'Charm', cursive; }
+        .site-card:hover { transform: translateY(-15px); }
+
+        /* --- MODAL GALLERY --- */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000;
+            display: none; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-content { max-width: 900px; width: 100%; text-align: center; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid var(--gold); }
+        .modal-img { width: 100%; max-height: 50vh; object-fit: cover; border-radius: 10px; margin-bottom: 20px; border: 2px solid var(--gold); }
+        .modal-close { position: absolute; top: 30px; right: 50px; color: #fff; font-size: 3rem; cursor: pointer; }
+        .modal-desc-title { color: var(--gold); font-size: 2.2rem; font-family: 'Zhi Mang Xing', cursive; margin-bottom: 10px; }
+        .modal-desc-text { color: #ddd; font-size: 1.1rem; line-height: 1.8; text-align: justify; max-height: 200px; overflow-y: auto; padding-right: 10px; }
+
+        /* Custom Scrollbar for Modal Text */
+        .modal-desc-text::-webkit-scrollbar { width: 5px; }
+        .modal-desc-text::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);} 40% {transform: translateY(-10px) translateX(-50%);} 60% {transform: translateY(-5px) translateX(-50%);} }
+
+        @media (max-width: 1024px) {
+            .intro-container, .explore-row, .explore-row.reverse { flex-direction: column; }
+            .gallery-inner { grid-template-columns: 1fr; }
+            .sites-grid { grid-template-columns: repeat(2, 1fr); }
+            .modal-close { right: 20px; top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="#" class="logo">越南靈粹</a>
+        <ul class="nav-links">
+            <li><a href="#home">首頁</a></li>
+            <li><a href="#intro">越南概覽</a></li>
+            <li><a href="#explore">深度探索</a></li>
+            <li><a href="#sites">必訪景點</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content" data-aos="fade-up">
+            <p>DISCOVER THE CHARM OF VIETNAM</p>
+            <h1>探尋越南・靈魂之美</h1>
+            <p style="font-size: 1.1rem; margin-top: 20px;">一場結合自然奇觀、悠久歷史與人文溫情的非凡旅程</p>
+        </div>
+        <div class="scroll-btn" onclick="window.scrollTo(0, window.innerHeight)">▼</div>
+    </section>
+
+    <section id="intro" data-aos="fade-up">
+        <div class="section-title">
+            <span>The Soul of S-Shape Land</span>
+            <h2>走進越南</h2>
+        </div>
+        <div class="intro-container">
+            <div class="intro-img">
+                <img src="images/introimg.jpg" alt="Vietnam Intro">
+            </div>
+            <div class="intro-text">
+                <p>越南，這片呈S形展開的土地，是亞洲最迷人的祕境之一。從北部的蒼翠梯田到南部的湄公河三角洲，每一寸土地都散發著生命力。</p>
+                <p>在這裡，您能遇見世界上最友善的人民，品嚐享譽全球的傳統美食。這不僅是一個目的地，更是一場洗滌心靈的藝術之旅。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="explore">
+        <div class="explore-row" data-aos="fade-up" onclick="toggleGallery('food-gallery')">
+            <div class="explore-img-box">
+                <img src="https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?q=80&w=1200" alt="Food">
+            </div>
+            <div class="explore-info">
+                <h3>饕客美食｜Explore Taste</h3>
+                <p>越南美食非常丰富，也很吸引人。
+其中，卷粉、煎饼和越南法棍面包都非常有名。
+
+越南卷粉是用米粉做的，又薄又软。
+里面有肉和木耳，配鱼露一起吃。
+
+越南煎饼外皮金黄又酥脆。
+里面有虾、肉和豆芽，常常和生菜一起吃。
+
+越南法棍面包是很常见的街头美食。
+面包很脆，里面有肉、肝酱、蔬菜和酱料。
+
+这三种美食很好地表现了越南的饮食文化。。</p>
+                <span style="color: var(--gold);">[ 點擊展開更多圖片 ]</span>
+            </div>
+        </div>
+        <div id="food-gallery" class="extra-gallery">
+            <div class="gallery-inner">
+                <img src="images/foodgallery1.jpg" alt="Food 1">
+                <img src="images/foodgallery2.jpg" alt="Food 2">
+                <img src="images/foodgallery3.jpg" alt="Food 3">
+            </div>
+        </div>
+
+        <div class="explore-row reverse" data-aos="fade-up" onclick="toggleGallery('spec-gallery')">
+            <div class="explore-img-box">
+                <img src="images/specgallery.jpg" alt="Specialty">
+            </div>
+            <div class="explore-info">
+                <h3>越南文化-Vietnam Culture</h3>
+                <p>越南文化历史悠久，深受农业文明的影响.越南有许多传统节日，比如春节和中秋节.越南的傳統服裝是奧黛.越南人熱情好客，對朋友非常友善.有悠久的尊祖敬宗傳統。越南文化重視禮貌和尊重長輩。</p>
+                <span style="color: var(--gold);">[ 點擊展開更多圖片 ]</span>
+            </div>
+        </div>
+        <div id="spec-gallery" class="extra-gallery">
+            <div class="gallery-inner">
+                <img src="images/specgallery1.jpg" alt="Spec 1">
+                <img src="images/specgallery2.jpg" alt="Spec 2">
+                <img src="images/specgallery3.jpg" alt="Spec 3">
+            </div>
+        </div>
+
+        <div class="explore-row" data-aos="fade-up" onclick="toggleGallery('people-gallery')">
+            <div class="explore-img-box">
+                <img src="images/connguoi.jpg" alt="People">
+            </div>
+            <div class="explore-info">
+                <h3>人文風情｜Warm People</h3>
+                <p>感受越南人民的堅韌與熱情。那一抹純真微笑，是旅程中最美的收穫。越南人民以勤劳、吃苦耐劳和坚强的进取精神而著称。经历了许多充满困难的历史阶段，越南人始终团结一致，热爱祖国，坚韧不拔地守护着自己的家园。不仅如此，越南人民还非常友好、开放且热情好客。来到越南旅游时，游客很容易通过当地人真诚的微笑、亲切的问候以及乐于助人的态度，感受到一种温暖而亲近的氛围。正是这种真挚与热情，给国际友人留下了深刻而美好的印象。
+</p>
+                <span style="color: var(--gold);">[ 點擊展開更多圖片 ]</span>
+            </div>
+        </div>
+        <div id="people-gallery" class="extra-gallery">
+            <div class="gallery-inner">
+                <img src="images/connguoi1.jpg" alt="People 1">
+                <img src="images/connguoi2.jpg" alt="People 2">
+                <img src="images/connguoi3.jpg" alt="People 3">
+            </div>
+        </div>
+    </section>
+
+    <section id="sites" style="background: #efefef;">
+        <div class="section-title">
+            <span>Top Destinations</span>
+            <h2>必訪景點</h2>
+        </div>
+        <div class="sites-grid">
+            <div class="site-card" data-aos="zoom-in" onclick="openModal('順化古都 Hue', 'images/canh1.jpg', '顺化是一座有很多故事的城市。以前，阮朝的国王在这里建立了首都。顺化靠近河流，也有很多绿色的山。这里有古老的皇城和重要的历史建筑。顺化的食物很有名，也很好吃。城里有很多寺庙、老房子和热闹的市场。香江慢慢地流过这座城市。顺化的生活节奏安静又轻松。')">
+                <img src="images/canh2.jpg" alt="Hue">
+                <div class="site-name">順化 Hue</div>
+            </div>
+            <div class="site-card" data-aos="zoom-in" data-aos-delay="100" onclick="openModal('下龍灣 Ha Long', 'images/Canh3.jpg', '對很多人來說，下龍灣就是越南的象徵。遊船在綠色的海水上行駛，周圍有成千上萬的島嶼。遊客可以停在漂亮的洞穴裡走走。洞穴裡有很多古老的石頭和奇特的形狀。下龍灣很美，是越南很有名的旅遊景點。但是，你仍然可以找到安靜的角落，享受自己的時間。')">
+                <img src="images/Canh4.jpg" alt="Ha Long">
+                <div class="site-name">下龍灣 Ha Long</div>
+            </div>
+            <div class="site-card" data-aos="zoom-in" data-aos-delay="200" onclick="openModal('會安古鎮 Hoi An', 'images/Canh6.jpg', '會安是一個很安靜的城市。這裡曾經是貿易港口。福門河（Thu Bon River）流過老房子和古老的寺廟。小船在舊碼頭來來往往。老城外，有兩條小路穿過稻田，通到海邊。如果在會安住幾天，你會喜歡它的美景和燈籠夜景。你的會安之旅等你來探索。')">
+                <img src="images/Canh5.jpg" alt="Hoi An">
+                <div class="site-name">會安 Hoi An</div>
+            </div>
+            <div class="site-card" data-aos="zoom-in" onclick="openModal('河內 Ha Noi', 'images/Canh8.jpg', '河內是越南的首都，有超過一千年的歷史。老城區的街道可以追溯到十四世紀。走在這些有樹的街道上，你可以看到老建築和殖民風格的房子。這裡讓人感覺回到過去。但是，現在的河內也很現代。城市裡有咖啡館、餐廳和藝術畫廊。晚上，你可以去屋頂酒吧或熱鬧的小酒館。河內有古老的寺廟和繁忙的市場，是越南的文化中心。')">
+                <img src="images/Canh7.jpg" alt="Ha Noi">
+                <div class="site-name">河內 Ha Noi</div>
+            </div>
+            <div class="site-card" data-aos="zoom-in" data-aos-delay="100" onclick="openModal('胡志明市 Saigon', 'images/Canh10.jpg', '胡志明市是越南南部的經濟中心。以前叫西貢（Saigon）。城市充滿活力，有很多車輛，也很現代化。這裡有老的建築，也有新的高樓。胡志明市有很多有名的景點：戰爭博物館（War Museum）、聖母教堂（Notre Dame Cathedral Basilica）和濱城市場（Ben Thanh Market）。')">
+                <img src="images/Canh9.jpg" alt="Saigon">
+                <div class="site-name">胡志明市 TPHCM</div>
+            </div>
+            <div class="site-card" data-aos="zoom-in" data-aos-delay="200" onclick="openModal('美山聖地 My Son', 'images/Canh11.jpg', '美山聖地有很多古老的寺廟。這些寺廟建得很仔細，也有漂亮的雕刻。最特別的是建築方法：每一塊磚都經過燒製和切割，堆疊時不用膠水。雖然經過幾百年風吹雨打，建築仍然完整。這是一個未解的謎。因為文化價值很高，美山聖地在1999年被列為聯合國教科文組織世界文化遺產。')">
+                <img src="images/Canh12.jpg" alt="My Son">
+                <div class="site-name">美山聖地 My Son</div>
+            </div>
+        </div>
+    </section>
+
+    <div id="galleryModal" class="modal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImg" class="modal-img" src="" alt="">
+            <div id="modalTitle" class="modal-desc-title"></div>
+            <div id="modalText" class="modal-desc-text"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">越南靈粹</div>
+        <p style="margin: 20px 0; letter-spacing: 2px;">❖ DISCOVER THE CHARM OF VIETNAM ❖</p>
+        <p style="opacity: 0.6; font-size: 0.8rem;">© 2026 VIETNAM TOURISM.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        window.addEventListener("scroll", function() {
+            var nav = document.getElementById("navbar");
+            nav.classList.toggle("sticky", window.scrollY > 100);
+        });
+
+        function toggleGallery(id) {
+            const gallery = document.getElementById(id);
+            if (gallery.style.maxHeight) {
+                gallery.style.maxHeight = null;
+            } else {
+                document.querySelectorAll('.extra-gallery').forEach(el => el.style.maxHeight = null);
+                gallery.style.maxHeight = gallery.scrollHeight + "px";
+            }
+        }
+
+        // Updated Modal Logic to include description
+        function openModal(title, imgUrl, description) {
+            document.getElementById("modalImg").src = imgUrl;
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalText").innerText = description;
+            document.getElementById("galleryModal").style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            document.getElementById("galleryModal").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        // Close modal when clicking outside of modal-content
+        window.onclick = function(event) {
+            let modal = document.getElementById("galleryModal");
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
